@@ -81,6 +81,8 @@ create table `seller_info`
   `update_time` timestamp   not null default current_timestamp on update current_timestamp comment '修改时间',
   primary key (`seller_id`)
 ) comment '卖家信息表';
+# 创建一个默认管理员 密码2501902696也是老师的微信，有任何问题可以加老师微信咨询
+INSERT INTO seller_info VALUES (1, '编程小石头', '2501902696', '2501902696',now(),now());
 
 create table `user`
 (
