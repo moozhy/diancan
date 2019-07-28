@@ -1,11 +1,7 @@
 server:
   context-path: /pastoral-canteen
-  port: 8086
-
+  port: 8087
 spring:
-  profiles:
-    active: dev
-
   datasource:
     url: jdbc:mysql://60.171.247.197:8090/pastoral_canteen?serverTimezone=Asia/Shanghai&characterEncoding=utf8&useUnicode=true&useSSL=false&allowMultiQueries=true
     username: root
@@ -19,5 +15,5 @@ spring:
 
 # website
 projectUrl:
-  pastoral-canteen: localhost:8086
+  pastoral-canteen: localhost:8087
 
