@@ -1,5 +1,5 @@
 server:
-  context-path: /pastoral-canteen
+  context-path: /sell
   port: 8086
 spring:
   datasource:
@@ -15,5 +15,5 @@ spring:
 
 # website
 projectUrl:
-  pastoral-canteen: localhost:8086
+  sell: localhost:8086
 

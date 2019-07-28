@@ -25,8 +25,6 @@ import lombok.extern.slf4j.Slf4j;
 public class SellerAuthorizeAspect {
 
 
-    //    @Pointcut("execution(public * com.moozhy.controller.Seller*.*(..))" +
-    //    "&& !execution(public * com.moozhy.controller.SellerUserController.*(..))")
     @Pointcut("execution(public * com.moozhy.controller.Seller*.*(..))")
     public void verify() {
     }
