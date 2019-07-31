@@ -1,32 +1,25 @@
 package com.moozhy.controller;
 
-import com.moozhy.pojo.vo.ResultVO;
-import com.moozhy.model.Picture;
 import com.moozhy.exception.SellException;
 import com.moozhy.form.PictureForm;
+import com.moozhy.model.Picture;
+import com.moozhy.pojo.vo.ResultVO;
 import com.moozhy.repository.PictureRepository;
 import com.moozhy.utils.ResultVOUtil;
-
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.Map;
 
-import javax.validation.Valid;
-
-import lombok.extern.slf4j.Slf4j;
-
 /**
- *  @author 陆逊
- *
+ * @author 陆逊
+ * <p>
  * 用户相关
  */
 @RestController
@@ -43,10 +36,13 @@ public class PictureController {
         List<Picture> pictures = repository.findAll();
         return ResultVOUtil.success(pictures);
     }
-    /*
-     * 页面相关
-     * */
 
+    /**
+     * 页面相关
+     *
+     * @param map
+     * @return
+     */
     @GetMapping("/list")
     public ModelAndView list(Map<String, Object> map) {
         List<Picture> pictures = repository.findAll();
@@ -54,6 +50,13 @@ public class PictureController {
         return new ModelAndView("picture/list", map);
     }
 
+    /**
+     * 图片详情
+     *
+     * @param picId
+     * @param map
+     * @return
+     */
     @GetMapping("/index")
     public ModelAndView index(@RequestParam(value = "picId", required = false) Integer picId,
                               Map<String, Object> map) {
@@ -93,4 +96,29 @@ public class PictureController {
         return new ModelAndView("common/success", map);
     }
 
+
+    /**
+     * 图片删除
+     *
+     * @param picId
+     * @param map
+     * @return
+     */
+    @GetMapping("/delete")
+    public ModelAndView delete(@RequestParam(value = "picId") Integer picId,
+                               Map<String, Object> map) {
+        Picture picture = repository.findByPicId(picId);
+        if (picture != null) {
+            try{
+                repository.delete(picId);
+            }catch (Exception e){
+                map.put("msg", e.getMessage());
+                map.put("url", "/sell/picture/list");
+                return new ModelAndView("common/error", map);
+            }
+        }
+
+        map.put("url", "/sell/picture/list");
+        return new ModelAndView("common/success", map);
+    }
 }

@@ -2,33 +2,26 @@ package com.moozhy.controller;
 
 import com.moozhy.constant.CookieConstant;
 import com.moozhy.constant.RedisConstant;
-import com.moozhy.model.SellerInfo;
 import com.moozhy.enums.ResultEnum;
 import com.moozhy.exception.SellException;
 import com.moozhy.form.SellerForm;
+import com.moozhy.model.SellerInfo;
 import com.moozhy.repository.SellerInfoRepository;
 import com.moozhy.utils.CookieUtil;
-
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
-
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
-
-import lombok.extern.slf4j.Slf4j;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 
 /**
  * @author 陆逊
@@ -59,6 +52,33 @@ public class AdminUserController {
         }
     }
 
+    /**
+     * 登录界面
+     *
+     * @param request
+     * @param response
+     * @return
+     */
+    @GetMapping("/login")
+    public ModelAndView login(HttpServletRequest request,
+                              HttpServletResponse response) {
+        //1. 从cookie里查询
+        Cookie cookie = CookieUtil.get(request, CookieConstant.TOKEN);
+        if (cookie != null) {
+            //2. 清除cookie
+            CookieUtil.set(response, CookieConstant.TOKEN, null, 0);
+        }
+        return new ModelAndView("common/loginView");
+    }
+
+    /**
+     * 退出
+     *
+     * @param request
+     * @param response
+     * @param map
+     * @return
+     */
     @GetMapping("/logout")
     public ModelAndView logout(HttpServletRequest request,
                                HttpServletResponse response,
@@ -70,14 +90,13 @@ public class AdminUserController {
             CookieUtil.set(response, CookieConstant.TOKEN, null, 0);
         }
         map.put("msg", ResultEnum.LOGOUT_SUCCESS.getMessage());
-        map.put("url", "/sell/seller/order/list");
+        map.put("url", "/sell/admin/login");
         return new ModelAndView("common/success", map);
     }
 
-    /*
+    /**
      * 页面相关
-     * */
-
+     */
     @GetMapping("/list")
     public ModelAndView list(Map<String, Object> map) {
         List<SellerInfo> categoryList = repository.findAll();

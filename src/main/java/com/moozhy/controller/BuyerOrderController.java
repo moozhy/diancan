@@ -1,32 +1,25 @@
 package com.moozhy.controller;
 
-import com.moozhy.pojo.vo.ResultVO;
 import com.moozhy.converter.OrderForm2OrderDTOConverter;
-import com.moozhy.pojo.dto.OrderDTO;
 import com.moozhy.enums.ResultEnum;
 import com.moozhy.exception.SellException;
 import com.moozhy.form.OrderForm;
+import com.moozhy.pojo.dto.OrderDTO;
+import com.moozhy.pojo.vo.ResultVO;
 import com.moozhy.service.BuyerService;
 import com.moozhy.service.OrderService;
 import com.moozhy.utils.ResultVOUtil;
-
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import javax.validation.Valid;
-
-import lombok.extern.slf4j.Slf4j;
 
 /**
  * @author 陆逊
@@ -42,7 +35,13 @@ public class BuyerOrderController {
     @Autowired
     private BuyerService buyerService;
 
-    //创建订单
+    /**
+     * 创建订单
+     *
+     * @param orderForm
+     * @param bindingResult
+     * @return
+     */
     @PostMapping("/create")
     public ResultVO<Map<String, String>> create(@Valid OrderForm orderForm,
                                                 BindingResult bindingResult) {
@@ -66,7 +65,13 @@ public class BuyerOrderController {
         return ResultVOUtil.success(map);
     }
 
-    //订单列表
+    /**
+     * 订单列表
+     *
+     * @param openid
+     * @param orderStatus
+     * @return
+     */
     @GetMapping("/listByStatus")
     public ResultVO<List<OrderDTO>> listByStatus(@RequestParam("openid") String openid,
                                                  @RequestParam(value = "orderStatus", defaultValue = "0") Integer orderStatus) {
@@ -80,7 +85,13 @@ public class BuyerOrderController {
     }
 
 
-    //订单详情
+    /**
+     * 订单详情
+     *
+     * @param openid
+     * @param orderId
+     * @return
+     */
     @GetMapping("/detail")
     public ResultVO<OrderDTO> detail(@RequestParam("openid") String openid,
                                      @RequestParam("orderId") String orderId) {
@@ -88,15 +99,27 @@ public class BuyerOrderController {
         return ResultVOUtil.success(orderDTO);
     }
 
-    //确认收货
+    /**
+     * 确认收货
+     *
+     * @param openid
+     * @param orderId
+     * @return
+     */
     @PostMapping("/sure")
     public ResultVO sure(@RequestParam("openid") String openid,
-                           @RequestParam("orderId") String orderId) {
+                         @RequestParam("orderId") String orderId) {
         buyerService.cancelOrder(openid, orderId);
         return ResultVOUtil.success();
     }
 
-    //取消订单
+    /**
+     * 取消订单
+     *
+     * @param openid
+     * @param orderId
+     * @return
+     */
     @PostMapping("/cancel")
     public ResultVO cancel(@RequestParam("openid") String openid,
                            @RequestParam("orderId") String orderId) {

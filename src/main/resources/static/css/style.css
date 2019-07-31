@@ -27,10 +27,10 @@ html {
   transition: all 0.5s ease;
 }
 #wrapper.toggled {
-  padding-left: 180px;
+  padding-left: 200px;
 }
 #wrapper.toggled #sidebar-wrapper {
-  width: 180px;
+  width: 200px;
 }
 #sidebar-wrapper {
   -moz-transition: all 0.5s ease;
@@ -38,8 +38,8 @@ html {
   -webkit-transition: all 0.5s ease;
   background: #1a1a1a;
   height: 100%;
-  left: 220px;
-  margin-left: -220px;
+  left: 200px;
+  margin-left: -200px;
   overflow-x: hidden;
   overflow-y: auto;
   transition: all 0.5s ease;
@@ -62,7 +62,7 @@ html {
   padding: 0;
   position: absolute;
   top: 0;
-  width: 220px;
+  width: 200px;
 }
 .sidebar-nav li {
   display: inline-block;
@@ -79,7 +79,7 @@ html {
   top: 0;
   -webkit-transition: width 0.2s ease-in;
   transition: width 0.2s ease-in;
-  width: 3px;
+  width: 5px;
   z-index: -1;
 }
 .sidebar-nav li:first-child a {
@@ -118,7 +118,7 @@ html {
 .sidebar-nav li a {
   color: #dddddd;
   display: block;
-  padding: 10px 15px 10px 30px;
+  padding: 10px 10px 10px 20px;
   text-decoration: none;
 }
 .sidebar-nav li.open:hover before {
@@ -159,7 +159,7 @@ html {
   border: none;
   display: block;
   height: 32px;
-  margin-left: 15px;
+  margin-left: 10px;
   position: fixed;
   top: 20px;
   width: 32px;

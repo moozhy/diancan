@@ -1,10 +1,10 @@
 package com.moozhy.controller;
 
+import com.moozhy.model.ProductCategory;
+import com.moozhy.model.ProductInfo;
 import com.moozhy.pojo.vo.ProductInfoVO;
 import com.moozhy.pojo.vo.ProductVO;
 import com.moozhy.pojo.vo.ResultVO;
-import com.moozhy.model.ProductCategory;
-import com.moozhy.model.ProductInfo;
 import com.moozhy.service.CategoryService;
 import com.moozhy.service.ProductService;
 import com.moozhy.utils.ResultVOUtil;
@@ -20,6 +20,7 @@ import java.util.stream.Collectors;
 
 /**
  * 买家商品
+ *
  * @author 陆逊
  */
 @RestController
@@ -38,12 +39,6 @@ public class BuyerProductController {
         List<ProductInfo> productInfoList = productService.findUpAll();
 
         //2. 查询类目(一次性查询)
-//        List<Integer> categoryTypeList = new ArrayList<>();
-        //传统方法
-//        for (ProductInfo productInfo : productInfoList) {
-//            categoryTypeList.add(productInfo.getCategoryType());
-//        }
-        //精简方法(java8, lambda)
         List<Integer> categoryTypeList = productInfoList.stream()
                 .map(e -> e.getCategoryType())
                 .collect(Collectors.toList());
@@ -51,13 +46,13 @@ public class BuyerProductController {
 
         //3. 数据拼装
         List<ProductVO> productVOList = new ArrayList<>();
-        for (ProductCategory productCategory: productCategoryList) {
+        for (ProductCategory productCategory : productCategoryList) {
             ProductVO productVO = new ProductVO();
             productVO.setCategoryType(productCategory.getCategoryType());
             productVO.setCategoryName(productCategory.getCategoryName());
 
             List<ProductInfoVO> productInfoVOList = new ArrayList<>();
-            for (ProductInfo productInfo: productInfoList) {
+            for (ProductInfo productInfo : productInfoList) {
                 if (productInfo.getCategoryType().equals(productCategory.getCategoryType())) {
                     ProductInfoVO productInfoVO = new ProductInfoVO();
                     BeanUtils.copyProperties(productInfo, productInfoVO);
